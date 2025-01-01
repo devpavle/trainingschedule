@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="player.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+    <title>Player view | Training schedule</title>
+</head>
+<body>
+    <style>
+        html{
+            overflow-x: hidden;
+        }
+        h1, p, a{
+            margin: 0.5rem;
+            text-decoration: none;
+        }
+        .settings{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+        #backToLogin, #loadSessionsButton{
+            display: block;
+            padding: 8px;
+            transition: all 0.4s ease-in-out;
+            cursor: pointer;
+            border: none;
+            border-radius: 0.5rem;
+        }
+        #backToLogin:hover, #loadSessionsButton:hover{
+            color: white;
+            background-color: rgb(181, 132, 19);
+            transition: all 0.4s ease-in-out;
+        }
+        #loadSessionsButton{
+            max-width: 100px;
+            justify-content: center;
+        }
+        h2{
+            margin-top: 2rem;
+        }
+        #scheduledList{
+            margin-top: 1rem;
+        }
+        #scheduledList div{
+            background-color: rgba(0, 0, 0, 0.3);
+            margin: 0.1rem;
+        }
+    </style>
+    <div id="background"></div>
+    <section class="content">
+        <h1>Training schedule</h1>
+        <p id="status">No user.</p>
+        <a href="index.html"><button id="backToLogin">Back to login page</button></a>
+
+        <section class="scheduled">
+
+            <div class="settings">
+                <div>
+                    <label for="playerSelect">Filter by player: </label>
+                    <select name="playerSelect" id="playerSelect">
+                        <option value="All">All</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="numberOfSessions">Show sessions: </label>
+                    <input type="number" name="numberOfSessions" id="numberOfSessions" value="4">
+                </div>
+                <button id="loadSessionsButton">Load</button>
+            </div>
+            <h2>Scheduled:</h2>
+            <div id="scheduledList">
+
+            </div>
+            <!--<div class="session">
+                <p>Court</p>
+                <p>Players</p>
+                <p>Coach</p>
+                <p>Additional info</p>--->
+            </div>
+        </section>
+    </section>
+    
+
+</body>
+</html>
