@@ -39,6 +39,13 @@ let filters = {
     date: "All"
 }
 
+let elementCounter = {
+    players: 0,
+    coaches: 0,
+    courts: 0,
+    scheduled: 0
+}
+
 
 onAuthStateChanged(auth, (user) => {
     //var notLoggedIn = document.getElementById('not-logged-in')
@@ -109,6 +116,7 @@ onAuthStateChanged(auth, (user) => {
         })
 
         loadAllSessions(number, filters)
+        console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
 
         programLoaded();
     } else {
@@ -131,10 +139,14 @@ function loadCoaches(){
     document.getElementById('coach').innerHTML = "";
     document.getElementById('coachFilter').innerHTML = "<option value=\"All\">All</option>"
     let coaches = []
+    elementCounter.coaches = 0;
     getDocs(collection(db, uid, "defaultCentre", "coaches"))
         .then((querySnapshot1)=> {
             querySnapshot1.forEach((doc) => {
-                if (doc.data().name != coachName) coaches.push(doc.data().name);
+                if (doc.data().name != coachName) {
+                    coaches.push(doc.data().name);
+                    elementCounter.coaches += 1;
+                }
             });
             coaches.forEach((e)=>{
 
@@ -160,16 +172,22 @@ function loadCoaches(){
                 document.getElementById('coachList').appendChild(div);
 
                 b2.addEventListener('click', ()=>{
-                    deleteDoc(doc(db, uid, 'defaultCentre','coaches', e))
+                    if (elementCounter.coaches > 1){
+                        deleteDoc(doc(db, uid, 'defaultCentre','coaches', e))
                     .then(() => {
                         console.log("Document deleted successfully!");
+                        elementCounter.coaches--;
                         loadCoaches();
+                        
                     })
                     .catch((error) => {
                         console.error("Error deleting document: ", error);
                     });
+                    }
+                    else alert('There has to be at least one coach!');
                 })
             })
+            console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
         })
         .catch(error => {
             console.log("Error getting document:", error);
@@ -184,10 +202,12 @@ function loadPlayers(){
     document.getElementById('player4').innerHTML = "<option value=\"noPlayer\">No player</option>";
     document.getElementById('playerFilter').innerHTML = "<option value=\"All\">All</option>"
     let players = []
+    elementCounter.players = 0;
     getDocs(collection(db, uid, "defaultCentre", "players"))
         .then((querySnapshot1)=> {
             querySnapshot1.forEach((doc) => {
                 players.push(doc.data().name);
+                elementCounter.players+=1;
             });
             players.forEach((e)=>{
                 for(let i = 0; i < 4; i++){
@@ -213,16 +233,22 @@ function loadPlayers(){
                 document.getElementById('playerList').appendChild(div);
 
                 b2.addEventListener('click', ()=>{
-                    deleteDoc(doc(db, uid, 'defaultCentre','players', e))
-                    .then(() => {
-                        console.log("Document deleted successfully!");
-                        loadPlayers();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting document: ", error);
-                    });
+                    if (elementCounter.players > 1){
+                        deleteDoc(doc(db, uid, 'defaultCentre','players', e))
+                        .then(() => {
+                            console.log("Document deleted successfully!");
+                            elementCounter.players--;
+                            loadPlayers();
+                            
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting document: ", error);
+                        });
+                    }
+                    else alert('There has to be at least one player!');
                 })
             })
+            console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
         })
         .catch(error => {
             console.log("Error getting document:", error);
@@ -235,10 +261,12 @@ function loadCourts(){
     document.getElementById('court').innerHTML = "";
     document.getElementById('courtFilter').innerHTML = "<option value=\"All\">All</option>"
     let courts = []
+    elementCounter.courts = 0;
     getDocs(collection(db, uid, "defaultCentre", "courts"))
     .then((querySnapshot1)=> {
         querySnapshot1.forEach((doc) => {
             courts.push(doc.data().name);
+            elementCounter.courts+=1;
         });
         courts.forEach((e)=>{
 
@@ -263,16 +291,23 @@ function loadCourts(){
             document.getElementById('courtList').appendChild(div);
 
             b2.addEventListener('click', ()=>{
-                deleteDoc(doc(db, uid, 'defaultCentre','courts', e))
-                .then(() => {
-                    console.log("Document deleted successfully!");
-                    loadCourts();
-                })
-                .catch((error) => {
-                    console.error("Error deleting document: ", error);
-                });
+                if (elementCounter.courts > 1){
+                    deleteDoc(doc(db, uid, 'defaultCentre','courts', e))
+                    .then(() => {
+                        console.log("Document deleted successfully!");
+                        elementCounter.courts--;
+                        loadCourts();
+                        
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting document: ", error);
+                    });
+                }
+                else alert('There has to be at least one court!');
+                
             })
         })
+        console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
     })
     .catch(error => {
         console.log("Error getting document:", error);
@@ -396,10 +431,12 @@ function sessionID(a, b, c, d){
 
 function loadAllSessions(sessionNumber, filters){
     let sessions = []
+    elementCounter.scheduled = 0;
     let k = 0;
     getDocs(collection(db, uid, "defaultCentre", "scheduled"))
     .then((querySnapshot1)=> {
         querySnapshot1.forEach((doc) => {
+            elementCounter.scheduled += 1;
             const sessionData = {
                 player1: doc.data().player1,
                 player2: doc.data().player2,
@@ -450,17 +487,23 @@ function loadAllSessions(sessionNumber, filters){
 
                 // Delete session
                 b2.addEventListener('click', ()=>{
-                    deleteDoc(doc(db, uid, 'defaultCentre','scheduled', e.sessionId))
-                    .then(() => {
-                        console.log("Document deleted successfully!");
-                        resetScheduledList(number, filters);
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting document: ", error);
-                    });
+                    if (elementCounter.scheduled > 1){
+                        deleteDoc(doc(db, uid, 'defaultCentre','scheduled', e.sessionId))
+                        .then(() => {
+                            console.log("Document deleted successfully!");
+                            elementCounter.scheduled--;
+                            resetScheduledList(number, filters);
+                            
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting document: ", error);
+                        });
+                    }
+                    else alert('There has to be at least one session scheduled!');
                 })
             }
         })
+        console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
     })
     .catch(error => {
         console.log("Error getting document:", error);
