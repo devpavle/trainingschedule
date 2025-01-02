@@ -504,6 +504,27 @@ function loadAllSessions(sessionNumber, filters){
             }
         })
         console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
+        console.log('started expired check')
+        console.log('now: ' + Date.now())
+        let tmp = sessions.slice().reverse();
+        for(let i = 0; i < tmp.length; i++){
+            let e = tmp[i];
+            console.log(getMillisecondsFromDateTime(e.endTime))
+            if (getMillisecondsFromDateTime(e.endTime) < Date.now()){
+                console.log('expired ' + e.sessionId)
+                if (elementCounter.scheduled > 1){
+                    elementCounter.scheduled--;
+                    deleteDoc(doc(db, uid, 'defaultCentre','scheduled', e.sessionId))
+                    .then(() => {
+                        console.log("Document deleted successfully (expired)!");
+                        console.log(elementCounter.players + " " + elementCounter.coaches + " " + elementCounter.courts + " " + elementCounter.scheduled);
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting document: ", error);
+                    });
+                } else console.log('not deleting the last in the collection')
+            }
+        }
     })
     .catch(error => {
         console.log("Error getting document:", error);
