@@ -136,3 +136,43 @@ button:hover{
         flex-direction: column;
     }
 }
+
+footer a{
+    text-decoration: none;
+    color: rgb(181, 132, 19);
+}
+
+
+footer{
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0;
+    float: left;
+    margin: 2rem auto auto auto;
+}
+
+footer h4{
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+footer p{
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    padding: 1rem;
+    color: rgb(181, 132, 19);
+}
+
+.media .fa, .fa-solid{
+    color: var(--blue);
+    margin: 0 1rem;
+    cursor: pointer;
+    padding: 1rem 0;
+    transition: color 0.3s ease-in-out;
+}
+
+.media .fa:hover, .fa-solid:hover{
+    color: var(--beige);
+}

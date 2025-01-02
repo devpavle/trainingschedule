@@ -98,3 +98,52 @@ h1{
         grid-template-rows: auto auto;
     }
 }
+
+
+
+footer a{
+    text-decoration: none;
+    color: white;
+}
+
+
+footer{
+    width: 100%;
+    text-align: center;
+    padding: 2rem 0;
+    float: left;
+    margin: 2rem auto auto auto;
+}
+
+footer h4{
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
+    font-weight: 600;
+}
+
+footer p{
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.25rem;
+    padding: 1rem;
+    color: white;
+}
+
+.media .fa, .fa-solid{
+    color: var(--blue);
+    margin: 0 1rem;
+    cursor: pointer;
+    padding: 1rem 0;
+    transition: color 0.3s ease-in-out;
+}
+
+.media .fa:hover, .fa-solid:hover{
+    color: var(--beige);
+}
+
+@media (width > 800px) and (height > 600px){
+    footer{
+        position: fixed;
+        bottom: 0;
+    }
+}
