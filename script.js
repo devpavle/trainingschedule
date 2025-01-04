@@ -46,12 +46,14 @@ onAuthStateChanged(auth, (user) => {
             e.preventDefault();
             const inputUsername = document.getElementById('playerUsernameInput').value;
             const inputPassword = document.getElementById('playerPasswordInput').value;
+            let passedUsernameCheck = false;
             getDocs(collection(db, 'users'))
                 .then((querySnapshot1)=> {
                     querySnapshot1.forEach((doc) => {
                         const username = doc.data().publicUsername;
                         const userid = doc.id;
                         if (username == inputUsername){
+                            passedUsernameCheck = true;
                             console.log("id " + userid);
                             if (doc.data().publicPassword == inputPassword){
                                 //Successful login!
@@ -71,6 +73,7 @@ onAuthStateChanged(auth, (user) => {
                             else alert("Incorrect password.")
                         }
                     });
+                    if (!passedUsernameCheck) alert("Incorrect username.")
                 })
                 .catch(error => {
                     console.log("Error getting document:", error);
